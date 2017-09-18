@@ -18,7 +18,7 @@
             <p>{{ product.description }}</p>
 
             {% if product.inStock() %}
-                <a href="#" class="btn btn-default btn-sm">Add to cart</a>
+                <a href="{{ path_for('cart.add', { slug: product.slug, quantity: 1 }) }}" class="btn btn-default btn-sm">Add to cart</a>
             {% endif %}
         </div>
     </div>
