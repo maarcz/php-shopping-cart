@@ -1,1 +1,44 @@
-{{ basket.all | json_encode }}
+{% extends 'templates/app.twig' %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-8">
+            {% if basket.itemCount %}
+                <div class="well">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Product</th>
+                                <th>Price</th>
+                                <th>Quantity</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in basket.all %}
+                                <tr>
+                                    <td><a href="{{ path_for('product.get', { slug: item.slug }) }}">{{ item.title }}</a></td>
+                                    <td>{{ item.price | number_format(2) }}</td>
+                                    <td>{{ item.quantity }} (temp)</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <p>You gave no items in your cart. <a href="{{ path_for('home') }}">Start shopping</a></p>
+            {% endif %}
+        </div>
+        <div class="col-md-4">
+            {% if basket.itemCount and basket.subTotal %}
+                <div class="well">
+                    <h4>Cart summary</h4>
+                    <hr>
+
+                    {% include 'cart/partials/summary.twig' %}
+
+                    <a href="#" class="btn btn-default">Checkout</a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
