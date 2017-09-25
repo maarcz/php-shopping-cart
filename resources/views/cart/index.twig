@@ -18,7 +18,17 @@
                                 <tr>
                                     <td><a href="{{ path_for('product.get', { slug: item.slug }) }}">{{ item.title }}</a></td>
                                     <td>{{ item.price | number_format(2) }}</td>
-                                    <td>{{ item.quantity }} (temp)</td>
+                                    <td>
+                                        <form action="{{ path_for('cart.update', { slug: item.slug }) }}" method="post" class="form-inline">
+                                            <select name="quantity" class="form-control input-sm">
+                                                {% for num in 1..item.stock %}
+                                                    <option value="{{ num }}"{% if num == item.quantity %} selected="selected" {% endif %}>{{ num }}</option>
+                                                {% endfor %}
+                                                <option value="0">None</option>
+                                            </select>
+                                            <input type="submit" value="Update" class="btn btn-default btn-sm">
+                                        </form>
+                                    </td>
                                 </tr>
                             {% endfor %}
                         </tbody>

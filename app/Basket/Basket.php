@@ -33,7 +33,7 @@ class Basket
             throw new QuantityExceededException;
         }
 
-        if ($quantity === 0) {
+        if ($quantity == 0) {
             $this->remove($product);
             return;
         }
@@ -106,7 +106,7 @@ class Basket
     public function refresh()
     {
         foreach ($this->all() as $item) {
-            if ($item->hasStock($item->quantity)) {
+            if (!$item->hasStock($item->quantity)) {
                 $this->update($item, $item->stock);
             }
         }
