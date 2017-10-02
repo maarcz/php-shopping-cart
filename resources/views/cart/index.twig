@@ -46,7 +46,7 @@
 
                     {% include 'cart/partials/summary.twig' %}
 
-                    <a href="#" class="btn btn-default">Checkout</a>
+                    <a href="{{ path_for('order.index') }}" class="btn btn-default">Checkout</a>
                 </div>
             {% endif %}
         </div>
