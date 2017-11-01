@@ -5,11 +5,17 @@
         "php-di/slim-bridge": "1.0.2",
         "illuminate/database": "^5.4",
         "respect/validation": "^1.1",
-        "braintree/braintree_php": "^3.25"
+        "braintree/braintree_php": "^3.25",
+        "vlucas/phpdotenv": "^2.4"
     },
     "autoload": {
         "psr-4": {
             "Cart\\": "app"
         }
+    },
+    "scripts": {
+        "post-root-package-install": [
+            "php -r \"file_exists('.env') || copy('.env.example', '.env');\""
+        ]
     }
 }

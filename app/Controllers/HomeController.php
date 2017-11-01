@@ -13,7 +13,6 @@ class HomeController
     {
         $products = $product->get();
 
-
         return $view->render($response, 'home.twig', [
             'products' => $products
         ]);
