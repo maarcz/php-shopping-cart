@@ -5,6 +5,7 @@ namespace Cart\Controllers;
 use Slim\Router;
 use Slim\Views\Twig;
 use Cart\Basket\Basket;
+use Cart\Models\Order;
 use Cart\Models\Product;
 use Cart\Models\Customer;
 use Cart\Models\Address;
@@ -38,6 +39,19 @@ class OrderController
         }
 
         return $view->render($response, 'order/index.twig');
+    }
+
+    public function show($hash, Request $request, Response $response, Twig $view, Order $order)
+    {
+        $order = $order->with(['address', 'products'])->where('hash', $hash)->first();
+
+        if (!$order) {
+            return $response->withRedirect($this->router->pathFor('home'));
+        }
+
+        return $view->render($response, 'order/show.twig', [
+            'order' => $order,
+        ]);
     }
 
     public function create(Request $request, Response $response, Customer $customer, Address $address)
@@ -111,6 +125,10 @@ class OrderController
         ]);
 
         $event->dispatch();
+
+        return $response->withRedirect($this->router->pathFor('order.show', [
+            'hash' => $hash,
+        ]));
     }
 
     protected function getQuantities($items)
